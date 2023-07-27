@@ -47,7 +47,7 @@ const Blogs = () => {
 
     useEffect(()=>{
       handleGetBlogs();
-    }, [])
+    }, [userId])
 
   return (
     // create
