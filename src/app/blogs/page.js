@@ -1,76 +1,94 @@
 'use client'
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
 import BlogsCard from '../components/BlogsCard';
 import Link from 'next/link';
-import '../blogs/blogs.scss'
+import '../blogs/blogs.scss';
 
 const Blogs = () => {
   const [userInfo, setUserInfo] = useState();
-  // verifying the authenticated user by matching the token
-  const getUserDetails = async () =>{
-    try
-    {
+  const [refreshBlogs, setRefreshBlogs] = useState(false); // Flag for triggering a refresh
+  const getUserDetails = async () => {
+    try {
       const res = await axios.get('/api/userDetails');
-      console.log(res.data); 
+      console.log(res.data);
       setUserInfo(res.data.data);
-    }
-    catch(error)
-    {
+    } catch (error) {
       console.log(error);
     }
-  }
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     getUserDetails();
-  }, [])
+  }, []);
+
   const userId = userInfo?._id;
 
-    const [blogsDetails, setBlogsDetails] = useState({
-        title: "", description: "",
-    })
-    const handleInputs = (e) =>{
-        const name = e.target.name;
-        const value = e.target.value;
-        setBlogsDetails({
-          ...blogsDetails, [name]: value
-        })
-    }
+  const [blogsDetails, setBlogsDetails] = useState({
+    title: '',
+    description: '',
+  });
 
-    // read
-    const [allBlogs, setAllBlogs] = useState('');
-    const handleGetBlogs = async () =>{
-        const res = await axios.get('/api/blogs/read');
-        console.log(res.data.blogs);
-        setAllBlogs(res.data.blogs)
-    }
+  const handleInputs = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setBlogsDetails({
+      ...blogsDetails,
+      [name]: value,
+    });
+  };
 
-    useEffect(()=>{
-      handleGetBlogs();
-    }, [userId])
+  // read
+  const [allBlogs, setAllBlogs] = useState('');
+  const handleGetBlogs = async () => {
+    const res = await axios.get('/api/blogs/read');
+    console.log(res.data.blogs);
+    setAllBlogs(res.data.blogs);
+  };
+
+  useEffect(() => {
+    handleGetBlogs();
+  }, [refreshBlogs]); // Use refreshBlogs as a dependency
+
+  // Function to handle blog creation and updates
+  const handleAddOrUpdateBlog = async () => {
+    // Perform the logic for adding or updating blogs here
+    // Once the blog is created or updated, set the refreshBlogs flag to true
+    setRefreshBlogs(true);
+  };
 
   return (
-    // create
     <div className='blogs-container'>
       <h1> Hey {userInfo?.username}, discover amazing blogs! </h1>
       <h1> Blogs </h1>
       <div className='blogs-buttons'>
-        <Link href='/newBlog'> <button> Create Your Blog </button> </Link>
-        <Link href='/'> <button> Back to Home </button> </Link>
+        <Link href='/newBlog'>
+          <button> Create Your Blog </button>
+        </Link>
+        <Link href='/'>
+          <button> Back to Home </button>
+        </Link>
       </div>
       <div>
-        {allBlogs.length > 0 ? 
-        (
-            allBlogs.map((element)=>(
-              <BlogsCard key={element._id} id={element._id} username={element.userId.username} title={element.title} description={element.description} isUser={userId === element.userId._id} handleGetBlogs={handleGetBlogs} />
-            ))
-        ) : 
-        (
-            <p> There is nothing to show, create your first Blog </p>
+        {allBlogs.length > 0 ? (
+          allBlogs.map((element) => (
+            <BlogsCard
+              key={element._id}
+              id={element._id}
+              username={element.userId.username}
+              title={element.title}
+              description={element.description}
+              isUser={userId === element.userId._id}
+              handleGetBlogs={handleGetBlogs}
+              handleAddOrUpdateBlog={handleAddOrUpdateBlog} // Pass the function to the BlogsCard
+            />
+          ))
+        ) : (
+          <p> There is nothing to show, create your first Blog </p>
         )}
-        </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Blogs
+export default Blogs;

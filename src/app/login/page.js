@@ -33,7 +33,7 @@ const login = () => {
           email: "",
           password: ""
         })
-        router.push('/chatbot')
+        router.push('/profile')
       } 
       else 
       {
