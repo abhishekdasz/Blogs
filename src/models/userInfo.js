@@ -18,9 +18,15 @@ const userInfoSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        blogsInfo:[
+            {
+                type: mongoose.Types.ObjectId,
+                ref: 'BlogsModel',
+            }
+        ]
     },
     {
-        timestamp: true,
+        timestamps: true,
     })
 
 const UserInfo = mongoose.models.UserInfo || mongoose.model('UserInfo', userInfoSchema)

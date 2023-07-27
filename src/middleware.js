@@ -23,10 +23,10 @@ export function middleware(request) {
 export const config = {
   matcher:
   [
-    // '/',
     '/chatbot',
     '/login',
     '/register',
+    '/newBlog',
   ],
 }
 

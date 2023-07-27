@@ -4,8 +4,13 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation'
 import Link from 'next/link';
 
+import { useUserContext } from '@/contexts/UserContext';
+
 const page = () => {
+  const { userInfo, setUserInfo } = useUserContext();
   const router = useRouter();
+
+
   const handleLogOut = async () =>{
     try 
     {
@@ -17,36 +22,36 @@ const page = () => {
       console.log(error);
     }
   }
-
-    const [userData, setUserData] = useState();
-
-    const getUserDetails = async () =>{
-        try
-        {
-            const res = await axios.get('/api/userDetails');
-            console.log(res.data); 
-            setUserData(res.data.data);
-            console.log(userData);
-        }
-        catch(error)
-        {
-            console.log(error);
-        }
+  
+  const getUserDetails = async () =>{
+    try
+    {
+      const res = await axios.get('/api/userDetails');
+      console.log(res.data); 
+      // store data into the context api states, so that it can be accessible from other components also
+      setUserInfo(res.data.data);
     }
+    catch(error)
+    {
+      console.log(error);
+    }
+  }
+  
+  useEffect(()=>{
+    getUserDetails();
+  }, [])
 
-    useEffect(()=>{
-      getUserDetails();
-    }, [])
   return (
     <div>
       {/* const { email } = userData; */}
       Chatbot page
-      <p> Username: { userData?.username } </p>
-      <p> Email: { userData?.email } </p>
-      <p> Phone: { userData?.phone } </p>
+      <p> Username: { userInfo?.username } </p>
+      <p> Email: { userInfo?.email } </p>
+      <p> Phone: { userInfo?.phone } </p>
       <button onClick={handleLogOut} > Logout </button>
 
       <Link href='/'> Go to HomePage </Link>
+      <Link href='/blogs'> Go to Blogs </Link>
     </div>
   )
 }
