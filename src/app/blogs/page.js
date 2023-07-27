@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import BlogsCard from '../components/BlogsCard';
 import Link from 'next/link';
+import '../blogs/blogs.scss'
 
 const Blogs = () => {
   const [userInfo, setUserInfo] = useState();
@@ -50,22 +51,24 @@ const Blogs = () => {
 
   return (
     // create
-    <div>
-      Blogs 
-      <Link href='/newBlog'> <button> Create a New Blog </button> </Link>
+    <div className='blogs-container'>
+      <h1> Hey {userInfo?.username}, discover amazing blogs! </h1>
+      <h1> Blogs </h1>
+      <div className='blogs-buttons'>
+        <Link href='/newBlog'> <button> Create Your Blog </button> </Link>
+        <Link href='/'> <button> Back to Home </button> </Link>
+      </div>
       <div>
         {allBlogs.length > 0 ? 
         (
             allBlogs.map((element)=>(
-              <BlogsCard key={element._id} id={element._id} title={element.title} description={element.description} isUser={userId === element.userId} handleGetBlogs={handleGetBlogs} />
+              <BlogsCard key={element._id} id={element._id} username={element.userId.username} title={element.title} description={element.description} isUser={userId === element.userId._id} handleGetBlogs={handleGetBlogs} />
             ))
         ) : 
         (
-            <p> "nothing" </p>
+            <p> There is nothing to show, create your first Blog </p>
         )}
         </div>
-
-        <h1> Hello {userInfo?.username} </h1>
     </div>
   )
 }

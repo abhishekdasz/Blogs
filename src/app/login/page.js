@@ -2,6 +2,8 @@
 import React, { useState } from 'react'
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link'; 
+import '../login/login.scss'
 
 const login = () => {
   const router = useRouter();
@@ -51,16 +53,37 @@ const login = () => {
     }
   };
   return (
-    <div>
+    <div className="login-sec">
+    <div className="container">
       <form onSubmit={handleSubmit}>
-        <label> Email: </label>
-        <input type="text" name="email" value={user.email} onChange={handleInputs} />
+        <label>Email:</label>
+        <input
+          type="text"
+          name="email"
+          value={user.email}
+          onChange={handleInputs}
+          placeholder="Enter your email..."
+        />
 
-        <label> Password </label>
-        <input type="text" name="password" value={user.password} onChange={handleInputs} />
+        <label>Password:</label>
+        <input
+          type="password"
+          name="password"
+          value={user.password}
+          onChange={handleInputs}
+          placeholder="Enter your password..."
+        />
 
-        <button type="submit">Submit</button>
+        <button type="submit">Sign In</button>
       </form>
+
+      <p>
+        Haven't registered yet?{' '}
+        <Link href="/register">
+          Register
+        </Link>
+      </p>
+    </div>
     </div>
   )
 }

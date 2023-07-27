@@ -6,7 +6,7 @@ export async function GET(req, res) {
   try 
   {
     await dbConnect();
-    const blogs = await BlogsModel.find({});
+    const blogs = await BlogsModel.find({}).populate('userId');
     if(!blogs)
     {
         return NextResponse.json({ success:false, message:'No blogs found' });

@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import '../[id]/editblogs.scss'
+import Link from 'next/link';
 
 const page = ({params}) => {
   const router = useRouter();
@@ -49,17 +51,30 @@ const page = ({params}) => {
     }
   }
   return (
-    <div>
-      BlogsDetails {id}
+    <div className="container">
+      <h1> Edit Your Blog Post </h1>
+      <p style={{marginBottom:'1rem'}}> Revise and enhance your existing blog post with new ideas and updates.  Edit your blog title and content below, and click 'Update Blog' to save your changes and share your updated post with the world. </p>
       <form>
         <div>
-          <input type="text" name='title' value={inputs?.title} onChange={handleInputs} />
+          <label>Title:</label>
+          <input
+            type="text"
+            name="title"
+            value={inputs?.title}
+            onChange={handleInputs}
+          />
         </div>
         <div>
-          <textarea name='description' value={inputs?.description} onChange={handleInputs} ></textarea>
+          <label>Description:</label>
+          <textarea
+            name="description"
+            value={inputs?.description}
+            onChange={handleInputs}
+          ></textarea>
         </div>
-        <button onClick={handleUpdate}> Update Blog </button>
-      </form> 
+        <button onClick={handleUpdate} className='button'>Update Blog</button>
+        <Link href='/blogs' className='button'> Cancel </Link> 
+      </form>
     </div>
   )
 }

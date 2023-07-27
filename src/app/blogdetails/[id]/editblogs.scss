@@ -1,0 +1,68 @@
+/* pages/page.scss */
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 40px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.container h1 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.container form div 
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.container label {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.container input,
+.container textarea {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+.container textarea {
+  resize: vertical;
+  min-height: 200px;
+}
+
+.container .button {
+  padding: 10px 16px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+}
+a 
+{
+  display: flex;
+  justify-content: center;
+  text-decoration: none;
+  color: #fff;
+}
+
+.container .button:hover {
+  background-color: #0056b3;
+}

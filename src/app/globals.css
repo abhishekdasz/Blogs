@@ -1,5 +1,88 @@
-*
-{
+/* styles/homepage.scss */
+
+/* Reset some default styles */
+html,
+body,
+div,
+h1,
+h2,
+h3,
+p,
+a {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
+/* Basic styles for the homepage layout */
+.homepage {
+  min-height: 100vh; /* Set a minimum height to cover the fullscreen if content is less */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9;
+}
+
+header {
+  text-align: center;
+}
+
+header h1 {
+  font-size: 36px;
+  font-weight: bold;
+  color: #333;
+}
+
+header p {
+  font-size: 18px;
+  color: #666;
+}
+
+header a {
+  font-size: 16px;
+  color: #007bff;
+  text-decoration: none;
+  padding: 0 3rem;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-container {
+  width: 50%; /* Adjust the width of the image container */
+  /* Set a maximum height for the image */
+}
+
+.image-container img {
+  position: initial ;
+  width: 100%; /* Set the image width to fill the container */
+  height: auto; /* Auto adjust the height to maintain aspect ratio */
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+footer {
+  text-align: center;
+}
+
+footer p {
+  font-size: 14px;
+  color: #999;
 }

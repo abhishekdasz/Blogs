@@ -1,20 +1,34 @@
 "use client"
-import Link from 'next/link'
-import React from 'react'
-import { useUserContext } from '@/contexts/UserContext';
+// pages/index.js
 
+import React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 
-const page = () => {
-  const { userInfo } = useUserContext();
+const Homepage = () => {
   return (
-    <div>
-      Home Page
-      <h1> Hello {userInfo?.username} </h1>
-      <Link href='/chatbot'> ChatBot </Link>
-      <Link href='/blogs'> Blogs </Link>
-      <Link href='/login'> Login </Link>
-    </div>
-  )
-}
+    <div className="homepage">
+      <header>
+        <h1>Welcome to BlogZenith</h1>
+        <p>Explore the world through our insightful blog posts.</p>
+        <Link href="/blogs"> View All Blogs </Link>
+        <Link href="/profile"> Profile Page </Link>
+      </header>
 
-export default page
+      <main>
+        <section className="image-section">
+          <div className="image-container">
+            <Image src="/home.jpg" alt="Blog Image" width={800} height={400} layout="responsive"/>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <p>&copy; 2023 BlogZenith. All rights reserved.</p>
+      </footer>
+    </div>
+  );
+};
+
+export default Homepage;
+

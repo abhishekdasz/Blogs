@@ -2,6 +2,8 @@
 import React, { useState } from 'react'
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link'; 
+import '../register/register.scss'
 
 const register = () => {
   const router = useRouter();
@@ -54,22 +56,52 @@ const register = () => {
     }
   };
   return (
-    <div>
+    <div className="container">
       <form onSubmit={handleSubmit}>
         <label> Name: </label>
-        <input type="text" name="username" value={user.username} onChange={handleInputs} />
+        <input
+          type="text"
+          name="username"
+          value={user.username}
+          onChange={handleInputs}
+          placeholder="Enter your name..."
+        />
 
         <label> Email: </label>
-        <input type="text" name="email" value={user.email} onChange={handleInputs} />
+        <input
+          type="email"
+          name="email"
+          value={user.email}
+          onChange={handleInputs}
+          placeholder="Enter your email..."
+        />
 
-        <label> Phone </label>
-        <input type="phone" name="phone" value={user.phone} onChange={handleInputs} />
+        <label> Phone: </label>
+        <input
+          type="tel"
+          name="phone"
+          value={user.phone}
+          onChange={handleInputs}
+          placeholder="Enter your phone number..."
+        />
 
-        <label> Password </label>
-        <input type="text" name="password" value={user.password} onChange={handleInputs} />
+        <label> Password: </label>
+        <input
+          type="password"
+          name="password"
+          value={user.password}
+          onChange={handleInputs}
+          placeholder="Enter your password..."
+        />
 
-        <button type="submit">Submit</button>
+        <button type="submit">Sign Up</button>
       </form>
+      <p>
+        Already registered?{' '}
+        <Link href="/login">
+          Log In
+        </Link>
+      </p>
     </div>
   )
 }
