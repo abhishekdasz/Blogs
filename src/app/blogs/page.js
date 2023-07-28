@@ -40,17 +40,14 @@ const Blogs = () => {
   // read
   const [allBlogs, setAllBlogs] = useState('');
   const handleGetBlogs = async () => {
-    const res = await axios.get('/api/blogs/read', {cache:'no-default'});
+    const res = await axios.get('/api/blogs/read');
     console.log(res.data.blogs);
     setAllBlogs(res.data.blogs);
   };
 
   useEffect(() => {
     handleGetBlogs();
-  }, []); // Use refreshBlogs as a dependency
-
-  // Function to handle blog creation and updates
-
+  }, [allBlogs]); 
   return (
     <div className='blogs-container'>
       <h1> Hey {userInfo?.username}, discover amazing blogs! </h1>
