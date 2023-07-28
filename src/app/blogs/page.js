@@ -1,12 +1,19 @@
+// pages/blogs.js
 'use client'
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import BlogsCard from '../components/BlogsCard';
 import Link from 'next/link';
+import axios from 'axios';
 import '../blogs/blogs.scss';
 
-const Blogs = () => {
+const Blogs = ({ initialBlogs }) => {
   const [userInfo, setUserInfo] = useState();
+  const [updatedBlogs, setUpdatedBlogs] = useState([]);
+  
+  useEffect(() => {
+    getUserDetails();
+  }, []);
+
   const getUserDetails = async () => {
     try {
       const res = await axios.get('/api/userDetails');
@@ -17,28 +24,22 @@ const Blogs = () => {
     }
   };
 
-  useEffect(() => {
-    getUserDetails();
-  }, []);
-
   const userId = userInfo?._id;
-  // read
-  const [allBlogs, setAllBlogs] = useState('');
+
   const handleGetBlogs = async () => {
     try {
-      const randomQueryParam = `?_random=${Math.random()}`; // Add a random query parameter
-      const res = await axios.get(`/api/blogs/read${randomQueryParam}`);
+      const res = await axios.get('/api/blogs/read');
       console.log(res.data.blogs);
-      setAllBlogs(res.data.blogs);
+      setUpdatedBlogs(res.data.blogs);
     } catch (error) {
       console.log(error);
     }
   };
-  
 
   useEffect(() => {
     handleGetBlogs();
-  }, []); 
+  }, []);
+
   return (
     <div className='blogs-container'>
       <h1> Hey {userInfo?.username}, discover amazing blogs! </h1>
@@ -53,8 +54,20 @@ const Blogs = () => {
         </Link>
       </div>
       <div>
-        {allBlogs.length > 0 ? (
-          allBlogs.map((element) => (
+        {updatedBlogs.length > 0 ? (
+          updatedBlogs.map((element) => (
+            <BlogsCard
+              key={element._id}
+              id={element._id}
+              username={element.userId.username}
+              title={element.title}
+              description={element.description}
+              isUser={userId === element.userId._id}
+              handleGetBlogs={handleGetBlogs}
+            />
+          ))
+        ) : initialBlogs?.length > 0 ? (
+          initialBlogs.map((element) => (
             <BlogsCard
               key={element._id}
               id={element._id}
@@ -72,5 +85,24 @@ const Blogs = () => {
     </div>
   );
 };
+
+export async function getServerSideProps() {
+  try {
+    const res = await axios.get('/api/blogs/read');
+    const initialBlogs = res.data.blogs;
+    return {
+      props: {
+        initialBlogs,
+      },
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      props: {
+        initialBlogs: [],
+      },
+    };
+  }
+}
 
 export default Blogs;
