@@ -18,7 +18,9 @@ const Blogs = () => {
   };
 
   useEffect(() => {
+    handleGetBlogs();
     getUserDetails();
+
   }, []);
 
   const userId = userInfo?._id;
@@ -33,11 +35,11 @@ const Blogs = () => {
     }
   };
 
-  useEffect(() => {
-    handleGetBlogs();
-    const interval = setInterval(handleGetBlogs, 5000); // Re-fetch blogs every 5 seconds
-    return () => clearInterval(interval);
-  }, []);
+  // useEffect(() => {
+  //   handleGetBlogs();
+  //   const interval = setInterval(handleGetBlogs, 5000); // Re-fetch blogs every 5 seconds
+  //   return () => clearInterval(interval);
+  // }, []);
 
   return (
     <div className='blogs-container'>
