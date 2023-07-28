@@ -22,21 +22,6 @@ const Blogs = () => {
   }, []);
 
   const userId = userInfo?._id;
-
-  const [blogsDetails, setBlogsDetails] = useState({
-    title: '',
-    description: '',
-  });
-
-  const handleInputs = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setBlogsDetails({
-      ...blogsDetails,
-      [name]: value,
-    });
-  };
-
   // read
   const [allBlogs, setAllBlogs] = useState('');
   const handleGetBlogs = async () => {
@@ -47,7 +32,7 @@ const Blogs = () => {
 
   useEffect(() => {
     handleGetBlogs();
-  }, [allBlogs]); 
+  }, []); 
   return (
     <div className='blogs-container'>
       <h1> Hey {userInfo?.username}, discover amazing blogs! </h1>
@@ -56,6 +41,7 @@ const Blogs = () => {
         <Link href='/newBlog'>
           <button> Create Your Blog </button>
         </Link>
+        <button onClick={handleGetBlogs}> Get Latest Blogs </button>
         <Link href='/'>
           <button> Back to Home </button>
         </Link>
