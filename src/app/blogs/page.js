@@ -9,7 +9,7 @@ const Blogs = () => {
   const [userInfo, setUserInfo] = useState();
   const getUserDetails = async () => {
     try {
-      const res = await axios.get('/api/userDetails', {cache:'no-default'});
+      const res = await axios.get('/api/userDetails');
       console.log(res.data);
       setUserInfo(res.data.data);
     } catch (error) {
