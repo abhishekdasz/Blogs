@@ -7,10 +7,9 @@ import '../blogs/blogs.scss';
 
 const Blogs = () => {
   const [userInfo, setUserInfo] = useState();
-  const [refreshBlogs, setRefreshBlogs] = useState(false); // Flag for triggering a refresh
   const getUserDetails = async () => {
     try {
-      const res = await axios.get('/api/userDetails');
+      const res = await axios.get('/api/userDetails', {cache:'no-default'});
       console.log(res.data);
       setUserInfo(res.data.data);
     } catch (error) {
@@ -41,21 +40,16 @@ const Blogs = () => {
   // read
   const [allBlogs, setAllBlogs] = useState('');
   const handleGetBlogs = async () => {
-    const res = await axios.get('/api/blogs/read');
+    const res = await axios.get('/api/blogs/read', {cache:'no-default'});
     console.log(res.data.blogs);
     setAllBlogs(res.data.blogs);
   };
 
   useEffect(() => {
     handleGetBlogs();
-  }, [refreshBlogs]); // Use refreshBlogs as a dependency
+  }, []); // Use refreshBlogs as a dependency
 
   // Function to handle blog creation and updates
-  const handleAddOrUpdateBlog = async () => {
-    // Perform the logic for adding or updating blogs here
-    // Once the blog is created or updated, set the refreshBlogs flag to true
-    setRefreshBlogs(true);
-  };
 
   return (
     <div className='blogs-container'>
@@ -80,7 +74,6 @@ const Blogs = () => {
               description={element.description}
               isUser={userId === element.userId._id}
               handleGetBlogs={handleGetBlogs}
-              handleAddOrUpdateBlog={handleAddOrUpdateBlog} // Pass the function to the BlogsCard
             />
           ))
         ) : (
