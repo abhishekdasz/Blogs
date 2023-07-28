@@ -1,48 +1,15 @@
-'use client'
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+// pages/blogs.js
+
+import React from 'react';
 import BlogsCard from '../components/BlogsCard';
 import Link from 'next/link';
+import axios from 'axios';
 import '../blogs/blogs.scss';
 
-const Blogs = () => {
-  const [userInfo, setUserInfo] = useState();
-  const getUserDetails = async () => {
-    try {
-      const res = await axios.get('/api/userDetails');
-      console.log(res.data);
-      setUserInfo(res.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getUserDetails();
-  }, []);
-
+const Blogs = ({ blogs }) => {
+  const userInfo = null; // Set the user info you want here, or fetch it if needed
   const userId = userInfo?._id;
-  // read
-  const [allBlogs, setAllBlogs] = useState('');
-  const handleGetBlogs = async () => {
-    try {
-      const res = await axios.get('/api/blogs/read', {
-        headers: {
-          'Cache-Control': 'no-cache',
-        },
-        revalidate: 10, // Revalidate the data every 10 seconds
-      });
-      console.log(res.data.blogs);
-      setAllBlogs(res.data.blogs);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  
 
-  useEffect(() => {
-    handleGetBlogs();
-  }, []); 
   return (
     <div className='blogs-container'>
       <h1> Hey {userInfo?.username}, discover amazing blogs! </h1>
@@ -57,8 +24,8 @@ const Blogs = () => {
         </Link>
       </div>
       <div>
-        {allBlogs?.length > 0 ? (
-          allBlogs.map((element) => (
+        {blogs.length > 0 ? (
+          blogs.map((element) => (
             <BlogsCard
               key={element._id}
               id={element._id}
@@ -66,7 +33,6 @@ const Blogs = () => {
               title={element.title}
               description={element.description}
               isUser={userId === element.userId._id}
-              handleGetBlogs={handleGetBlogs}
             />
           ))
         ) : (
@@ -76,5 +42,26 @@ const Blogs = () => {
     </div>
   );
 };
+
+export async function getServerSideProps() {
+  try {
+    const res = await axios.get('/api/blogs/read', {
+      headers: {
+        'Cache-Control': 'no-cache',
+      },
+    });
+    const blogs = res.data.blogs;
+    return {
+      props: {
+        blogs,
+      },
+    };
+  } catch (error) {
+    console.error('Error while getting blogs:', error);
+    return {
+      notFound: true,
+    };
+  }
+}
 
 export default Blogs;
