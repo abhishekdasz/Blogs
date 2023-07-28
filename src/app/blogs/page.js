@@ -26,9 +26,12 @@ const Blogs = () => {
   const [allBlogs, setAllBlogs] = useState('');
   const handleGetBlogs = async () => {
     try {
-      const res = await axios.get('/api/blogs/read', {        headers: {
-        'Cache-Control': 'no-cache',
-      },});
+      const res = await axios.get('/api/blogs/read', {
+        headers: {
+          'Cache-Control': 'no-cache',
+        },
+        revalidate: 10, // Revalidate the data every 10 seconds
+      });
       console.log(res.data.blogs);
       setAllBlogs(res.data.blogs);
     } catch (error) {
