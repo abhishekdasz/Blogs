@@ -25,7 +25,7 @@ const Blogs = () => {
 
   const handleGetBlogs = async () => {
     try {
-      const res = await axios.get('/api/blogs/read');
+      const res = await axios.get('/api/blogs/read', { next: { revalidate: 10 } });
       const blogs = res.data.blogs;
       setAllBlogs(blogs);
     } catch (error) {
