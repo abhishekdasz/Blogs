@@ -25,10 +25,16 @@ const Blogs = () => {
   // read
   const [allBlogs, setAllBlogs] = useState('');
   const handleGetBlogs = async () => {
-    const res = await axios.get('/api/blogs/read');
-    console.log(res.data.blogs);
-    setAllBlogs(res.data.blogs);
+    try {
+      const randomQueryParam = `?_random=${Math.random()}`; // Add a random query parameter
+      const res = await axios.get(`/api/blogs/read${randomQueryParam}`);
+      console.log(res.data.blogs);
+      setAllBlogs(res.data.blogs);
+    } catch (error) {
+      console.log(error);
+    }
   };
+  
 
   useEffect(() => {
     handleGetBlogs();
